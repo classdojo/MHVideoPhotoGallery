@@ -32,13 +32,23 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"arrow_left")
-                                                                    style:UIBarButtonItemStylePlain
+//    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"arrow_left")
+//                                                                    style:UIBarButtonItemStylePlain
+//                                                                   target:self
+//                                                                   action:@selector(donePressed)];
+    
+    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                    target:self
                                                                    action:@selector(donePressed)];
 
-    self.navigationItem.backBarButtonItem = doneBarButton;
-    self.navigationItem.leftBarButtonItem = doneBarButton;
+    //self.navigationItem.leftBarButtonItem = doneBarButton;
+    
+    UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(donePressed)];
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = backBarButton;
     
     self.collectionView = [UICollectionView.alloc initWithFrame:self.view.bounds
                                            collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
@@ -249,6 +259,11 @@
     MHGalleryImageViewerViewController *detail = MHGalleryImageViewerViewController.new;
     detail.pageIndex = indexPath.row;
     detail.galleryItems = self.galleryItems;
+    
+    detail.hiddingToolBarAndNavigationBar = YES;
+    self.navigationController.navigationBar.hidden  =YES;
+    detail.toolbar.hidden =YES;
+    
     [self.navigationController pushViewController:detail animated:YES];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

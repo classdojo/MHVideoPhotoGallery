@@ -68,6 +68,7 @@
                                               animated:YES];
     
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -129,6 +130,8 @@
     self.UICustomization          = self.galleryViewController.UICustomization;
     self.transitionCustomization  = self.galleryViewController.transitionCustomization;
     
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    
     if (!self.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
     }else{
@@ -148,7 +151,7 @@
     
     self.navigationItem.rightBarButtonItem = doneBarButton;
     
-    self.view.backgroundColor = [self.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+    self.view.backgroundColor = [self.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     
     
     self.pageViewController = [UIPageViewController.alloc initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
@@ -172,6 +175,7 @@
     self.toolbar.tintColor = self.UICustomization.barButtonsTintColor;
     self.toolbar.tag = 307;
     [self.view addSubview:self.toolbar];
+    self.toolbar.hidden = YES;
     
     [self.toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -265,6 +269,7 @@
     
     [(UIScrollView*)self.pageViewController.view.subviews[0] setDelegate:self];
     [(UIGestureRecognizer*)[[self.pageViewController.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
+    
     
     [self reloadData];
 }
@@ -954,7 +959,7 @@
         if (self.item.galleryType != MHGalleryTypeImage) {
             [self addPlayButtonToView];
             
-            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width, 44)];
             self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
             self.moviePlayerToolBarTop.alpha =0;
             self.moviePlayerToolBarTop.barTintColor = self.viewController.UICustomization.barTintColor;
@@ -1388,8 +1393,11 @@
                                              object:self.moviePlayer];
     
     self.moviePlayer.shouldAutoplay = NO;
-    self.moviePlayer.view.frame = self.view.bounds;
-    self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    
+
+    
+    self.moviePlayer.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) ;
+    self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.moviePlayer.view.hidden = YES;
     
     [self.view addSubview:self.moviePlayer.view];
@@ -1492,10 +1500,12 @@
                 }
             }
         }
-        self.moviePlayerToolBarTop.frame =CGRectMake(0,44+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
+        //self.moviePlayerToolBarTop.frame =CGRectMake(0,44+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
+        self.moviePlayerToolBarTop.frame =CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width, 44);
         if (!MHISIPAD) {
             if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait) {
-                self.moviePlayerToolBarTop.frame =CGRectMake(0,32+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
+                //self.moviePlayerToolBarTop.frame =CGRectMake(0,32+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
+                self.moviePlayerToolBarTop.frame =CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width, 44);
             }
         }
         
@@ -1628,7 +1638,7 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
     if (self.moviePlayerToolBarTop) {
-        self.moviePlayerToolBarTop.frame = CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width,44);
+        self.moviePlayerToolBarTop.frame = CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width,44);
         self.leftSliderLabel.frame = CGRectMake(8, 0, 40, 43);
         self.rightSliderLabel.frame = CGRectMake(self.view.frame.size.width-20, 0, 50, 43);
     }
