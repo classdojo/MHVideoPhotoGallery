@@ -32,7 +32,7 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"arrow_left")
+    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:[UIImage imageNamed:@"arrow_left"]
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self
                                                                    action:@selector(donePressed)];
