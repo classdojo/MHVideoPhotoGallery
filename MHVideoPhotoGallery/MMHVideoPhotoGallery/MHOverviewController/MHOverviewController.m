@@ -32,13 +32,12 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:[UIImage imageNamed:@"arrow_left"]
+    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"arrow_left")
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self
                                                                    action:@selector(donePressed)];
 
-
-
+    self.navigationItem.backBarButtonItem = doneBarButton;
     self.navigationItem.leftBarButtonItem = doneBarButton;
     
     self.collectionView = [UICollectionView.alloc initWithFrame:self.view.bounds
