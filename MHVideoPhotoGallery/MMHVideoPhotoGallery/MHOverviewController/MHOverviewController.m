@@ -32,8 +32,13 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
-    
+    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"back_button")
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(donePressed)];
+
+
+
     self.navigationItem.rightBarButtonItem = doneBarButton;
     
     self.collectionView = [UICollectionView.alloc initWithFrame:self.view.bounds
@@ -245,9 +250,7 @@
     MHGalleryImageViewerViewController *detail = MHGalleryImageViewerViewController.new;
     detail.pageIndex = indexPath.row;
     detail.galleryItems = self.galleryItems;
-    if ([self.navigationController isKindOfClass:MHGalleryController.class]) {
-        [self.navigationController pushViewController:detail animated:YES];
-    }
+    [self.navigationController pushViewController:detail animated:YES];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
